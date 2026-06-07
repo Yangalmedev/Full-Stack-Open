@@ -9,15 +9,28 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
   const addPerson = (event) => {
     event.preventDefault()
 
-    const nameExist = persons.some(person => person.name.toLowerCase() === newName.trim().toLowerCase())
+    const nameExist = persons.find(person => person.name.toLowerCase() === newName.trim().toLowerCase())
+
     if(nameExist){
-      alert(`${newName} is already added to phonebook`)
-      setNewName('')
-      setNewNumber('')
+      const confirmUpdate = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+      
+      if(confirmUpdate){
+        const updatePerson = { ...nameExist, number: newNumber}
+
+        services
+          .update(nameExist.id, updatePerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(
+              person => person.id !== nameExist.id ? person : returnedPerson
+            ))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
       return
     }
+    
     const personObj = { name: newName , number: newNumber}
-
     // Using axios services (create()) to add new person 
     services
       .create(personObj)
@@ -25,7 +38,7 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
-        console.log(response)
+        console.log(returnedPerson)
       })
   }
 
