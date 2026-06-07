@@ -1,9 +1,8 @@
-import axios from 'axios'
-import services from '../services/phonebookServices'
-
 /* From the App file, we innitialized the PersonForm with 
 {persons, setPersons, newName, setNewName, newNumber, setNewNumber} 
 argument because we needed those in this file, then we put the parameters here  */
+
+
 const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}) => {
 
   const addPerson = (event) => {
@@ -18,15 +17,9 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
     }
     const personObj = { name: newName , number: newNumber}
 
-    // Using axios services (create()) to add new person 
-    services
-      .create(personObj)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson))
-        setNewName('')
-        setNewNumber('')
-        console.log(response)
-      })
+    setPersons(persons.concat(personObj))
+    setNewName('')
+    setNewNumber('')
   }
 
   const handleNameChange = (event) => {
