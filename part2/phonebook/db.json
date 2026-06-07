@@ -6,29 +6,14 @@
       "id": "2"
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": "3"
+      "name": "Althea Mae",
+      "number": "12345678",
+      "id": "j1Z1toFJOyA"
     },
     {
-      "name": "dada",
-      "number": "",
-      "id": "3qR1FqZfVmo"
-    },
-    {
-      "name": "Althea",
-      "number": "yrey6t6y",
-      "id": "hk_VwvRY-JE"
-    },
-    {
-      "name": "haha",
-      "number": "grthgtr",
-      "id": "CSyKeHQ4kO4"
-    },
-    {
-      "name": "sasa",
-      "number": "",
-      "id": "iTU_aTnFpaY"
+      "name": "Angelica",
+      "number": "097426742",
+      "id": "o67i36eTAf8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

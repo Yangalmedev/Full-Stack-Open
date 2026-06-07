@@ -4,9 +4,11 @@ const Notification = ({ notif }) => {
     return null
   }
 
+  const notification = notif.type === 'error' ? 'notif error' : 'notif'
+
   return (
-    <div className="notif">
-      {notif}
+    <div className={notification}>
+      {notif.message}
     </div>
   )
 }

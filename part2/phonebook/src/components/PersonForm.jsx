@@ -20,9 +20,10 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNe
         services
           .update(nameExist.id, updatePerson)
           .then(returnedPerson => {
-            setNotif(
-              `${updatePerson.name}'s number successfully updated`
-            )
+            setNotif({
+              message: `${updatePerson.name}'s number successfully updated`,
+              type: 'succes'
+            })
             setTimeout(() => {
               setNotif(null)
             }, 3000)
@@ -41,10 +42,11 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNe
     services
       .create(personObj)
       .then(returnedPerson => {
-        setNotif(
-            `${personObj.name} added successfully`
-          )
-          setTimeout(() => {
+        setNotif({
+          message: `${personObj.name} added successfully`,
+          type: 'succes'
+        })
+        setTimeout(() => {
             setNotif(null)
           }, 3000
         )

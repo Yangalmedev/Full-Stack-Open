@@ -11,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [notif, setNotif] = useState('')
+  const [notif, setNotif] = useState(null)
 
   // Communicating with backend server from db.json
   // Used to get the backend dat
@@ -33,10 +33,22 @@ const App = () => {
         .remove(id)
         .then(() => {
           // Update the UI state by filtering out the deleted person
+          setNotif({
+            message: `${name} successfully deleted .`,
+            type: 'success'
+          })
+          setTimeout(() => {
+              setNotif(null)
+            }, 3000
+          )
           setPersons(persons.filter(person => person.id !== id))
         })
         .catch(error => {
-          alert(`The contact '${name}' was already deleted from the server.`)
+          setNotif({
+            message: `The contact '${name}' was already deleted from the server.`,
+            type: 'error'
+          })
+          setTimeout
           setPersons(persons.filter(person => person.id !== id))
         })
     }
