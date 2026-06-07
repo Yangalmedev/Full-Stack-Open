@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import services from './services/phonebookServices'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
@@ -14,11 +15,11 @@ const App = () => {
   // Used to get the backend dat
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
+    services
+      .getAll()
+      .then(initialData => {
         console.log('promise fulfilled')
-        setPersons(response.data)
+        setPersons(initialData)
       })
   }, [])
   console.log('render', persons.length, 'persons')
