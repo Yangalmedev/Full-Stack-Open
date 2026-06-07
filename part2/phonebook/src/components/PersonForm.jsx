@@ -4,7 +4,7 @@ import services from '../services/phonebookServices'
 /* From the App file, we innitialized the PersonForm with 
 {persons, setPersons, newName, setNewName, newNumber, setNewNumber} 
 argument because we needed those in this file, then we put the parameters here  */
-const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}) => {
+const PersonForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber, notif, setNotif }) => {
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -13,13 +13,19 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
 
     if(nameExist){
       const confirmUpdate = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
-      
+    
       if(confirmUpdate){
         const updatePerson = { ...nameExist, number: newNumber}
 
         services
           .update(nameExist.id, updatePerson)
           .then(returnedPerson => {
+            setNotif(
+              `${updatePerson.name}'s number successfully updated`
+            )
+            setTimeout(() => {
+              setNotif(null)
+            }, 3000)
             setPersons(persons.map(
               person => person.id !== nameExist.id ? person : returnedPerson
             ))
@@ -35,6 +41,13 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
     services
       .create(personObj)
       .then(returnedPerson => {
+        setNotif(
+            `${personObj.name} added successfully`
+          )
+          setTimeout(() => {
+            setNotif(null)
+          }, 3000
+        )
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')

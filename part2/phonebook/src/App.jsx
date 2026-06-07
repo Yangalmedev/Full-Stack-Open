@@ -4,12 +4,14 @@ import services from './services/phonebookServices'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notif, setNotif] = useState('')
 
   // Communicating with backend server from db.json
   // Used to get the backend dat
@@ -47,8 +49,11 @@ const App = () => {
 
   return (
     <div>
+
       <h2>Phonebook</h2>
-      <div>==========</div>
+      <h3>Notif</h3>
+      <Notification notif={notif}/>
+      <div> .</div>
       <Filter  filter={filter} setFilter={setFilter}/>
       <div>debug: {newName}</div>
 
@@ -60,6 +65,8 @@ const App = () => {
         setNewName={setNewName} 
         newNumber={newNumber} 
         setNewNumber={setNewNumber} 
+        notif={notif}
+        setNotif={setNotif}
       /> 
 
       <h2>Numbers</h2>
