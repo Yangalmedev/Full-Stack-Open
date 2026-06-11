@@ -1,19 +1,20 @@
 
 const Country = ({ country }) => {
   console.log(country);
+
   return (
     <div>
       <h2>{country?.name?.common}</h2>
       <div>
+        
         <p>
-          <span>Capital: </span>
-          {country?.capital}
+          <span>Capital: </span> {country?.capital}
         </p>
         <p>
-          <span>Area: </span>
-          {country?.area}
+          <span>Area: </span> {country?.area}
         </p>
       </div>
+
       <div>
         <h3>languages:</h3>
         <ul>

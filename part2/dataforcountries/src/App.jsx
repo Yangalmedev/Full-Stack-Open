@@ -7,6 +7,7 @@ const App = () => {
   const [allCountries, setAllCountries] = useState([]);
   const [countries, setCountries] = useState([]); 
   const [search, setSearch] = useState('');
+  const [showCountry, setShowCountry] = useState(null); 
 
   useEffect(() => {
     axios
@@ -20,16 +21,22 @@ const App = () => {
   useEffect(() => {
     if (!search.trim()) {
       setCountries([]);
+      setShowCountry(null); 
       return;
     }
     const filteredCountries = allCountries.filter(c => 
       c.name?.common?.toLowerCase().includes(search.toLowerCase())
     );
     setCountries(filteredCountries);
+    setShowCountry(null); 
   }, [search, allCountries]);
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
+  };
+
+  const handleToggleShow = (i) => {
+    setShowCountry(prevIndex => (prevIndex === i ? null : i));
   };
 
   return (
@@ -45,12 +52,18 @@ const App = () => {
 
         {countries.length > 1 && countries.length <= 10 && (
           countries.map((country, i) => (
-          <li key={country.cca3 || i}>
-            {country?.name?.common}
-          </li>
+            <div key={country.cca3 || i}> 
+              <p>
+                {country?.name?.common}
+                {" "}
+                <button onClick={() => handleToggleShow(i)}>
+                  {showCountry === i ? "hide" : "show"}
+                </button>
+              </p>
+              {showCountry === i && <Country country={country} />}
+            </div>
           ))
         )}
-        
       </div>  
     </div>
   );
