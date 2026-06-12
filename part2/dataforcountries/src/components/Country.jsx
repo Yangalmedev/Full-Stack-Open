@@ -1,3 +1,4 @@
+import Weather from "./WeatherView";
 
 const Country = ({ country }) => {
   console.log(country);
@@ -6,7 +7,7 @@ const Country = ({ country }) => {
     <div>
       <h2>{country?.name?.common}</h2>
       <div>
-        
+
         <p>
           <span>Capital: </span> {country?.capital}
         </p>
@@ -24,6 +25,9 @@ const Country = ({ country }) => {
         </ul>
 
         <img src={country?.flags?.png} alt={country?.flags?.alt} height={180} />
+
+        <h2>Weather in {country?.name?.common}</h2>
+        <Weather country={country}/>
       </div>
     </div>
   );
