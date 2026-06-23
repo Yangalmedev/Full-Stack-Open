@@ -55,7 +55,37 @@ app.get('/api/persons/:id', (req, res) => {
   }
 });
 
+// Adding new person
+app.post('/api/persons', (req, res) => {
+  const body = req.body;
 
+  // Verifications
+  if (!body.name || !body.number) {
+    return res.status(400).json({ 
+      error: 'name or number is missing' 
+    });
+  }
+  const nameExists = persons.some(p => p.name.toLowerCase() === body.name.toLowerCase());
+  if (nameExists) {
+    return res.status(400).json({ 
+      error: 'name must be unique' 
+    });
+  }
+
+  const largeRandomId = Math.floor(Math.random() * 10000000) + 1;
+  const newPerson = {
+    id: largeRandomId,
+    name: body.name,
+    number: body.number
+  };
+  persons = persons.concat(newPerson);
+  log(`New person added to Phonebook ${newPerson}`)
+
+  res.status(201).json(newPerson);
+});
+
+
+// Deleting resources
 app.delete('/api/persons/:id', (req, res) => {
   const id = req.params.id
   const person = persons.find((p) => p.id === id);
