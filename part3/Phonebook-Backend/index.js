@@ -1,7 +1,17 @@
 const { log, error } = require('console')
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
+
 app.use(express.json())
+
+// Define a custom token to capture POST body data
+morgan.token('body', (req, res) => {
+  return req.method === 'POST' ? JSON.stringify(req.body) : ''
+})
+
+// Use the tiny configuration and append the custom body token
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 log('Hello, World')
 
@@ -27,6 +37,7 @@ let persons = [
     "number": "39-23-6423122"
   }
 ]
+
 
 // Display all resources
 app.get('/api/persons', (req, res) => {
@@ -72,14 +83,14 @@ app.post('/api/persons', (req, res) => {
     });
   }
 
-  const largeRandomId = Math.floor(Math.random() * 10000000) + 1;
+  const largeRandomId = String(Math.floor(Math.random() * 10000000) + 1);
   const newPerson = {
     id: largeRandomId,
     name: body.name,
     number: body.number
   };
   persons = persons.concat(newPerson);
-  log(`New person added to Phonebook ${newPerson}`)
+  log(`New person added to Phonebook ${JSON.stringify(newPerson)}`)
 
   res.status(201).json(newPerson);
 });
@@ -99,7 +110,6 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(404).json({ error: 'Person not found' });
   }
 });
-
 
 
 // Server Port
