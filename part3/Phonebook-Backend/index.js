@@ -28,10 +28,12 @@ let persons = [
   }
 ]
 
+// Display all resources
 app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
 
+// Counting the numbers of resources
 app.get('/info', (req, res) => {
   const info = persons.length
   const reqDate = new Date();
@@ -41,9 +43,22 @@ app.get('/info', (req, res) => {
   )
 })
 
+// Display for single entry of resource
+app.get('/api/persons/:id', (req, res) => {
+  const id = req.params.id
+  const person = persons.find((p) => p.id === id)
+  
+  if(person){
+    res.json(person)
+  }else {
+    res.status(404).end()
+  }
+})
 
+
+
+// Server Port
 const PORT = 3001
 app.listen(PORT, () => {
   log(`Server running on port ${PORT}`)
 })
-
