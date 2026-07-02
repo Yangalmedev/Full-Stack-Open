@@ -3,6 +3,7 @@ const { log, error } = require('console')
 const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
+
 const Person = require('./models/persons')
 const app = express()
 
@@ -17,7 +18,6 @@ morgan.token('body', (req, res) => {
 // Use the tiny configuration and append the custom body token
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-
 log('Hello, World')
 
 // Display all resources. the 'people' used here is the generated name in MongoDB Atlas
@@ -27,15 +27,6 @@ app.get('/api/persons', (req, res) => {
   })
 });
 
-// Counting the numbers of resources
-app.get('/info', (req, res) => {
-  const info = persons.length
-  const reqDate = new Date();
-  res.send(
-    `<p>Phonebook has info for ${info} people</p>
-    <p> ${reqDate.toString()} </p>`
-  )
-});
 
 // Display for single entry of resource
 app.get('/api/persons/:id', (req, res) => {
@@ -53,7 +44,6 @@ app.get('/api/persons/:id', (req, res) => {
 app.post('/api/persons', (req, res) => {
   const body = req.body;
 
-  // Verifications
   if (!body.name || !body.number) {
     return res.status(400).json({ 
       error: 'name or number is missing' 
@@ -81,17 +71,13 @@ app.post('/api/persons', (req, res) => {
 
 // Deleting resources
 app.delete('/api/persons/:id', (req, res) => {
-  const id = req.params.id
-  const person = persons.find((p) => p.id === id);
-
-  if (person) {
-    persons = persons.filter((p) => p.id !== id);
-    res.status(204).end(); 
-    console.log(`${person.name} successfully deleted!`); 
-
-  } else {
-    res.status(404).json({ error: 'Person not found' });
-  }
+  Person.findByIdAndDelete(request.params.id)
+    .then(person => {
+      res.status(204).end(); 
+    })
+    .catch(error => {
+      res.status(404).json({ error: 'Person not found' });
+    })
 });
 
 
